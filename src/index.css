@@ -383,6 +383,7 @@
   }
   .float {
     position: absolute;
+    z-index: 10;
     background: #fff;
     border-radius: 22px;
     border: 1px solid var(--line);
@@ -392,6 +393,9 @@
     align-items: center;
     gap: 12px;
     animation: float 6s ease-in-out infinite;
+  }
+  .phone-wrap {
+    z-index: 0;
   }
   .float-xp {
     top: 8%;

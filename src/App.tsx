@@ -63,7 +63,7 @@ function Hero() {
         <div>
           <span className='eyebrow'>
             <span className='dot'></span>
-            v0.4.2 — Public beta · Android APK
+            Public beta · Android APK
           </span>
           <h1 className='mt-6'>
             Find your focus.
@@ -88,10 +88,10 @@ function Hero() {
               <b>1 XP / min</b>focused, banked into your pet
             </div>
             <div>
-              <b>3,200+</b>hours locked in this month
+              <b>Beta-approved</b>usability tested with real users
             </div>
             <div>
-              <b>4.8 ★</b>early-tester rating
+              <b>OS-level</b>hard block, not a soft nag
             </div>
           </div>
         </div>
@@ -557,7 +557,7 @@ function Footer() {
             </p>
             <div className='foot-cta-card mt-6'>
               <h3>Ready to lock in?</h3>
-              <p>v0.4.2 · Android 9+ · 28 MB</p>
+              <p>Android</p>
               <a href='#' className='btn btn-primary btn-sm'>
                 <Ico.download s={15} /> Download APK
               </a>
