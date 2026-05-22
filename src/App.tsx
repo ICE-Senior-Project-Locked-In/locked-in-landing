@@ -63,7 +63,6 @@ function Hero() {
             Find your focus.
             <br />
             Raise your <span className='accent'>companion</span>
-            <span className='leaf'>🌱</span>.
           </h1>
           <p className='lede mt-6.5'>
             Lock In gamifies productivity. Tap an NFC tag to begin a
@@ -288,7 +287,7 @@ function Features() {
     {
       tag: 'Grow',
       title: 'Companion that evolves.',
-      body: '1 XP per minute focused. Unlocks decorations and interact with your buddy. Skip days and they get a little sad.',
+      body: '1 XP per minute focused. Unlocks decorations and interact with your. Skip days and they get a little sad.',
       visual: <FeaturePetVisual />,
     },
   ];

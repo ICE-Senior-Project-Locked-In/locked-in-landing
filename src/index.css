@@ -628,4 +628,143 @@
       height: 600px;
     }
   }
+
+  /* ── Phone breakpoint ── */
+  @media (max-width: 640px) {
+    .wrap {
+      padding: 0 22px;
+    }
+    .nav-inner {
+      padding: 12px 22px;
+    }
+    .hero.wrap {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .section.wrap {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    /* Collapse desktop nav links; keep only the Download CTA */
+    .nav-links {
+      gap: 8px;
+    }
+    .nav-links a:not(.btn) {
+      display: none;
+    }
+
+    h1 {
+      font-size: clamp(38px, 11vw, 56px);
+    }
+    h2 {
+      font-size: clamp(30px, 8vw, 40px);
+    }
+    h3 {
+      font-size: 20px;
+    }
+    .lede {
+      font-size: 16.5px;
+    }
+
+    .hero {
+      padding: 36px 0 64px;
+    }
+    .hero-cta {
+      margin-top: 28px;
+    }
+    .hero-cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .hero-meta {
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .hero-meta b {
+      font-size: 20px;
+      display: inline;
+      margin-right: 8px;
+    }
+
+    .btn {
+      padding: 15px 22px;
+      font-size: 15px;
+    }
+
+    .section {
+      padding: 64px 0;
+    }
+    .feat-grid {
+      margin-top: 40px;
+      gap: 18px;
+    }
+    .feat-card {
+      padding: 24px 22px 28px;
+      border-radius: 40px;
+      min-height: 0;
+      gap: 20px;
+    }
+    .feat-card .vis {
+      height: 180px;
+      border-radius: 28px;
+    }
+
+    /* Feedback section — Tailwind utilities are too aggressive on mobile */
+    #feedback > div {
+      border-radius: 40px !important;
+      padding: 32px 22px !important;
+    }
+    #feedback .absolute.-right-5 {
+      opacity: 0.35;
+    }
+
+    .about {
+      padding: 32px 24px;
+      border-radius: 44px;
+    }
+    .dual-process {
+      padding: 22px;
+      border-radius: 32px;
+    }
+
+    .phone-wrap {
+      min-height: 520px;
+    }
+    .phone {
+      width: 260px;
+      height: 520px;
+      border-radius: 44px;
+    }
+    .screen {
+      border-radius: 32px;
+    }
+    /* Pull the floating chips in so they don't clip off-screen */
+    .float-xp {
+      right: 2%;
+    }
+    .float-nfc {
+      left: 2%;
+    }
+    .float-streak {
+      left: 0;
+    }
+
+    footer {
+      border-radius: 44px 44px 0 0;
+      margin-top: 56px;
+    }
+    .foot-inner {
+      padding: 56px 22px 28px;
+    }
+    .foot-top {
+      gap: 36px;
+      padding-bottom: 40px;
+    }
+    .foot-bot {
+      flex-direction: column;
+      gap: 14px;
+      align-items: flex-start;
+    }
+  }
 }
