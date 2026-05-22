@@ -231,48 +231,111 @@ function FeatureBlockVisual() {
   );
 }
 
+/** Crop a single frame out of /decorations.png via CSS background.
+ *  Spritesheet is 254x292. We scale the whole sheet by `scale` and offset
+ *  so only the requested frame shows. `image-rendering: pixelated` keeps it crisp. */
+function Decor({
+  frame,
+  scale = 2,
+  className = '',
+  style = {},
+}: {
+  frame: { x: number; y: number; w: number; h: number };
+  scale?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      className={'absolute ' + className}
+      style={{
+        width: frame.w * scale,
+        height: frame.h * scale,
+        backgroundImage: 'url(/decorations.png)',
+        backgroundPosition: `-${frame.x * scale}px -${frame.y * scale}px`,
+        backgroundSize: `${254 * scale}px ${292 * scale}px`,
+        backgroundRepeat: 'no-repeat',
+        imageRendering: 'pixelated',
+        ...style,
+      }}
+    />
+  );
+}
+
+// Frame coordinates from decorations.json
+const DECOR = {
+  bed: { x: 1, y: 70, w: 110, h: 82 },
+  carpet: { x: 1, y: 1, w: 173, h: 67 },
+  lamp: { x: 159, y: 220, w: 42, h: 36 }, // rotated in sheet — we render via background-position
+  plantLarge: { x: 70, y: 219, w: 26, h: 61 },
+  plantSmall: { x: 129, y: 253, w: 23, h: 23 },
+  towerSquare: { x: 176, y: 1, w: 76, h: 105 },
+  windowCurtain: { x: 1, y: 154, w: 67, h: 67 },
+};
+
 function FeaturePetVisual() {
   return (
-    <div className='vis bg-[linear-gradient(160deg,#DFFBE3_0%,#B7EFC1_100%)]'>
-      <svg viewBox='0 0 240 200' width='100%' height='100%' className='p-1.5'>
-        <line
-          x1='20'
-          y1='160'
-          x2='220'
-          y2='160'
-          stroke='#398B46'
-          strokeWidth='1.5'
-          strokeDasharray='3 3'
-          opacity='.4'
-        />
-        <g
-          stroke='#398B46'
-          strokeWidth='2'
-          fill='none'
-          strokeLinecap='round'
-          opacity='.6'
-        >
-          <path d='M70 170 q 20 12 38 0' />
-          <path d='M150 170 q 20 12 38 0' />
-          <polyline points='106,168 110,170 106,172' />
-          <polyline points='186,168 190,170 186,172' />
-        </g>
-      </svg>
-      <div className='absolute inset-0 flex items-center justify-around px-2'>
-        <div className='text-center'>
-          <CatSprite size={56} />
-          <div className='text-[10px] font-bold text-[#398B46] -mt-1'>Lv 1</div>
-        </div>
-        <div className='text-center -translate-y-1.5'>
-          <CatSprite size={86} />
-          <div className='text-[10px] font-bold text-[#398B46] -mt-0.5'>
-            Lv 5
-          </div>
-        </div>
-        <div className='text-center -translate-y-3'>
-          <CatSprite size={108} />
-          <div className='text-[10px] font-bold text-[#398B46]'>Lv 12</div>
-        </div>
+    <div
+      className='vis'
+      style={{
+        background:
+          'linear-gradient(180deg, #F0DEBB 0%, #F0DEBB 58%, #C8A87C 58%, #AE9068 100%)',
+      }}
+    >
+      {/* Floor seam */}
+      <div className='absolute left-0 right-0 top-[58%] h-px bg-[#9A7850] opacity-40' />
+
+      {/* Window with curtain on back wall */}
+      <Decor
+        frame={DECOR.windowCurtain}
+        scale={1.4}
+        style={{ left: '14%', top: '8%' }}
+      />
+
+      {/* Cat tower against back wall */}
+      <Decor
+        frame={DECOR.towerSquare}
+        scale={1.3}
+        style={{ right: '8%', top: '4%' }}
+      />
+
+      {/* Carpet on floor */}
+      <Decor
+        frame={DECOR.carpet}
+        scale={1.05}
+        style={{ left: '50%', bottom: '6%', transform: 'translateX(-50%)' }}
+      />
+
+      {/* Bed */}
+      <Decor
+        frame={DECOR.bed}
+        scale={1}
+        style={{ left: '6%', bottom: '14%' }}
+      />
+
+      {/* Plants */}
+      <Decor
+        frame={DECOR.plantLarge}
+        scale={1.2}
+        style={{ right: '4%', bottom: '12%' }}
+      />
+
+      {/* Cat in the middle, on the carpet */}
+      <div
+        className='absolute'
+        style={{ left: '50%', bottom: '18%', transform: 'translateX(-50%)' }}
+      >
+        <CatSprite size={72} />
+      </div>
+
+      {/* Coin badge — ties the "earn coins to decorate" idea */}
+      <div className='absolute top-2.5 left-2.5 flex items-center gap-1.5 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full border border-(--line) shadow-[0_4px_12px_rgba(0,0,0,.08)]'>
+        <span className='w-4 h-4 rounded-full bg-[linear-gradient(135deg,#FFD66B,#E2A93A)] grid place-items-center text-[9px] font-bold text-[#5A3A0E]'>
+          ¢
+        </span>
+        <span className='text-[11px] font-bold text-(--ink) tracking-[-0.01em]'>
+          +24
+        </span>
       </div>
     </div>
   );
@@ -283,7 +346,7 @@ function Features() {
     {
       tag: 'Anchor',
       title: 'Hardware-locked focus.',
-      body: 'Tap a physical NFC tag on your desk to start a session. Removing the phone from the anchor pauses your timer — your environment becomes the trigger.',
+      body: 'Tap a physical NFC tag on your desk to start a session. Removing the phone from the anchor pauses your timer. Your environment becomes the trigger.',
       visual: <FeatureNFCVisual />,
     },
     {
@@ -294,8 +357,8 @@ function Features() {
     },
     {
       tag: 'Grow',
-      title: 'Companion that evolves.',
-      body: '1 XP per minute focused. Unlocks decorations and interact with your. Skip days and they get a little sad.',
+      title: 'Decorate their room.',
+      body: 'Every minute focused earns coins. Spend them on room decorations to build a space your companion loves. The longer you focus, the cozier their room gets.',
       visual: <FeaturePetVisual />,
     },
   ];
@@ -399,7 +462,7 @@ function Feedback() {
           <h2 className='mt-3.5'>Tried our app? Let us know what you think.</h2>
           <p className='lede mt-5.5'>
             We're a tiny team. Every rating, bug report, and weird edge-case
-            story shapes the next build. Drop us a quick star — or tell us the
+            story shapes the next build. Drop us a quick star, or tell us the
             whole thing in the form.
           </p>
 
@@ -459,8 +522,8 @@ function About() {
             </h2>
             <p className='lede mt-5.5'>
               Lock In is built on{' '}
-              <b className='text-(--ink) font-semibold'>Dual-Process Theory</b>{' '}
-              — the idea that the brain has two modes: a fast, automatic,
+              <b className='text-(--ink) font-semibold'>Dual-Process Theory</b>:
+              the idea that the brain has two modes. A fast, automatic,
               impulsive one, and a slow, deliberate, focused one.
             </p>
             <p className='text-(--ink-2) mt-4 text-base leading-[1.6]'>
@@ -500,7 +563,7 @@ function About() {
                 </svg>
               </div>
               <div>
-                <b>System 1 — Impulsive</b>
+                <b>System 1: Impulsive</b>
                 <div className='desc'>
                   Automatic. Reaches for the phone before you've decided to. We
                   don't try to fight this.
@@ -515,25 +578,11 @@ function About() {
                 <Ico.spark s={20} />
               </div>
               <div>
-                <b>System 2 — Deliberative</b>
+                <b>System 2: Deliberative</b>
                 <div className='desc'>
                   Slow, intentional. The version of you that planned the day. We
                   make it cheap to listen to.
                 </div>
-              </div>
-            </div>
-
-            <div className='flex justify-between items-center mt-1.5 px-1.5'>
-              <div className='text-xs text-(--ink-3)'>
-                Result, after 30 days
-              </div>
-              <div className='flex gap-4.5 text-[13px]'>
-                <span>
-                  <b className='text-(--primary-500)'>+38%</b> focus time
-                </span>
-                <span>
-                  <b className='text-(--primary-500)'>−61%</b> phone pickups
-                </span>
               </div>
             </div>
           </div>
@@ -670,8 +719,6 @@ function Footer() {
             </ul>
           </div>
         </div>
-
-        <div className='wordmark'>LOCK·IN</div>
 
         <div className='foot-bot'>
           <div>© 2026 Lock In Team · Crafted with care</div>
