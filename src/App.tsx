@@ -3,19 +3,20 @@ import { Ico } from './icons';
 import { PhoneMock } from './PhoneMock';
 import { CatSprite } from './CatSprite';
 
-function BrandMark() {
+const GITHUB_URL = 'https://github.com/ICE-Senior-Project-Locked-In';
+const EMAIL = 'team@lock-in-app.com';
+const WHITEPAPER_URL = '/lock-in-whitepaper.pdf';
+
+function BrandMark({ variant = 'color' }: { variant?: 'color' | 'white' }) {
+  const src =
+    variant === 'white' ? '/lock-in-logo-white.png' : '/lock-in-logo.png';
   return (
-    <span className='brand-mark'>
-      <svg width={20} height={20} viewBox='0 0 24 24' fill='none'>
-        <path
-          d='M7 11V8.5a5 5 0 0 1 10 0V11'
-          stroke='currentColor'
-          strokeWidth='2.2'
-          strokeLinecap='round'
-        />
-        <rect x='5' y='11' width='14' height='9' rx='3' fill='currentColor' />
-        <circle cx='12' cy='15.5' r='1.6' fill='#231F20' />
-      </svg>
+    <span
+      className={
+        'brand-mark' + (variant === 'white' ? ' brand-mark-white' : '')
+      }
+    >
+      <img src={src} alt='Lock In' width={34} height={34} />
     </span>
   );
 }
@@ -38,7 +39,12 @@ function Nav() {
           <a href='#features'>Features</a>
           <a href='#feedback'>Feedback</a>
           <a href='#about'>About</a>
-          <a href='#' className='flex items-center gap-1.5'>
+          <a
+            href={GITHUB_URL}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='flex items-center gap-1.5'
+          >
             <Ico.github s={15} /> GitHub
           </a>
           <a href='#download' className='btn btn-primary btn-sm ml-1.5'>
@@ -423,7 +429,7 @@ function Feedback() {
                 <Ico.arrowRight s={15} />
               </a>
               <a
-                href='mailto:hi@lockin.app?subject=Feedback%20on%20Lock%20In'
+                href={`mailto:${EMAIL}?subject=Feedback%20on%20Lock%20In`}
                 className='btn btn-ghost py-4 px-4.5 text-[15px] text-(--ink-2)'
               >
                 Email us instead
@@ -462,7 +468,12 @@ function About() {
               companion). The friction is tiny; the leverage is enormous.
             </p>
             <div className='flex gap-3.5 mt-8 flex-wrap'>
-              <a href='#' className='btn btn-dark btn-sm'>
+              <a
+                href={WHITEPAPER_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='btn btn-dark btn-sm'
+              >
                 Read the whitepaper <Ico.arrowRight s={14} />
               </a>
               <a
@@ -537,7 +548,7 @@ function Footer() {
         <div className='foot-top'>
           <div>
             <div className='brand text-white'>
-              <BrandMark />
+              <BrandMark variant='white' />
               <span className='text-lg'>Lock In</span>
             </div>
             <p className='text-[rgba(240,230,226,.7)] mt-4 text-sm max-w-[320px] leading-[1.55]'>
@@ -558,15 +569,6 @@ function Footer() {
               <li>
                 <a href='#features'>Features</a>
               </li>
-              <li>
-                <a href='#'>Roadmap</a>
-              </li>
-              <li>
-                <a href='#'>Changelog</a>
-              </li>
-              <li>
-                <a href='#'>Companion gallery</a>
-              </li>
             </ul>
           </div>
           <div className='foot-col'>
@@ -579,10 +581,13 @@ function Footer() {
                 <a href='#about'>About us</a>
               </li>
               <li>
-                <a href='#'>Whitepaper</a>
-              </li>
-              <li>
-                <a href='#'>Press kit</a>
+                <a
+                  href={WHITEPAPER_URL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Whitepaper
+                </a>
               </li>
             </ul>
           </div>
@@ -590,22 +595,17 @@ function Footer() {
             <h4>Connect</h4>
             <ul>
               <li>
-                <a href='#' className='flex items-center gap-2'>
+                <a
+                  href={GITHUB_URL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='flex items-center gap-2'
+                >
                   <Ico.github s={15} /> GitHub
                 </a>
               </li>
               <li>
-                <a href='#' className='flex items-center gap-2'>
-                  <Ico.discord s={15} /> Discord
-                </a>
-              </li>
-              <li>
-                <a href='#' className='flex items-center gap-2'>
-                  <Ico.twitter s={15} /> X / Twitter
-                </a>
-              </li>
-              <li>
-                <a href='mailto:hi@lockin.app'>hi@lockin.app</a>
+                <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
               </li>
             </ul>
           </div>
@@ -616,9 +616,17 @@ function Footer() {
         <div className='foot-bot'>
           <div>© 2026 Lock In Studio · Crafted with care</div>
           <div className='flex gap-5.5'>
-            <a href='#'>Privacy</a>
-            <a href='#'>Terms</a>
-            <a href='#'>Cookies</a>
+            <span>
+              Sprites and Assets by{' '}
+              <a
+                href='https://toffeecraft.itch.io/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='underline decoration-dotted underline-offset-2 hover:text-(--primary-100)'
+              >
+                ToffeeCraft
+              </a>
+            </span>
           </div>
         </div>
       </div>
