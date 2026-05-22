@@ -21,17 +21,11 @@ function RoomBg() {
       preserveAspectRatio='xMidYMid slice'
       xmlns='http://www.w3.org/2000/svg'
     >
-      {/* Back wall */}
       <rect width='100' height='175' fill='#C8A87C' />
-      {/* Left wall */}
       <polygon points='0,0 18,23 18,148 0,175' fill='#AE9068' />
-      {/* Right wall */}
       <polygon points='100,0 82,23 82,148 100,175' fill='#AE9068' />
-      {/* Ceiling */}
       <polygon points='0,0 100,0 82,23 18,23' fill='#F0DEBB' />
-      {/* Floor */}
       <polygon points='0,175 100,175 82,148 18,148' fill='#6B5040' />
-      {/* Baseboard trim */}
       <line
         x1='18'
         y1='148'
@@ -79,70 +73,42 @@ export function PhoneMock() {
   const hh = String(Math.floor(secs / 3600)).padStart(2, '0');
   const mm = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
   const ss = String(secs % 60).padStart(2, '0');
-  const xpPct = 0.62;
 
   return (
     <div className='phone-wrap'>
       {/* ── Floating badges ── */}
       <div className='float float-xp'>
-        <div
-          className='ico-32'
-          style={{
-            background: 'linear-gradient(135deg,#72F886,#398B46)',
-            color: '#0c2911',
-          }}
-        >
+        <div className='ico-32 bg-[linear-gradient(135deg,#72F886,#398B46)] text-[#0c2911]'>
           <Ico.spark s={20} />
         </div>
         <div>
-          <div
-            style={{
-              fontSize: 11,
-              color: 'var(--ink-3)',
-              fontWeight: 500,
-              letterSpacing: '.06em',
-              textTransform: 'uppercase',
-            }}
-          >
+          <div className='text-[11px] text-(--ink-3) font-medium tracking-[.06em] uppercase'>
             + XP gained
           </div>
-          <div
-            style={{ fontWeight: 700, fontSize: 18, letterSpacing: '-.01em' }}
-          >
+          <div className='font-bold text-[18px] tracking-[-0.01em]'>
             +128 XP
           </div>
         </div>
       </div>
 
       <div className='float float-streak'>
-        <div className='ico-32' style={{ background: 'rgba(255,255,255,.08)' }}>
-          <span style={{ color: '#FFB36B' }}>
+        <div className='ico-32 bg-[rgba(255,255,255,.08)]'>
+          <span className='text-[#FFB36B]'>
             <Ico.flame s={20} />
           </span>
         </div>
         <div>
-          <div
-            style={{
-              fontSize: 10.5,
-              color: 'rgba(255,255,255,.6)',
-              fontWeight: 500,
-              letterSpacing: '.08em',
-              textTransform: 'uppercase',
-            }}
-          >
+          <div className='text-[10.5px] text-[rgba(255,255,255,.6)] font-medium tracking-[.08em] uppercase'>
             Streak
           </div>
-          <div style={{ fontWeight: 700, fontSize: 18 }}>
+          <div className='font-bold text-[18px]'>
             <span className='num'>14</span> days
           </div>
         </div>
       </div>
 
       <div className='float float-nfc'>
-        <div
-          className='ico-32'
-          style={{ background: 'var(--secondary-500)', color: '#FFD9B6' }}
-        >
+        <div className='ico-32 bg-(--secondary-500) text-[#FFD9B6]'>
           <svg
             width='18'
             height='18'
@@ -158,217 +124,88 @@ export function PhoneMock() {
           </svg>
         </div>
         <div>
-          <div style={{ fontSize: 11, color: 'var(--ink-3)', fontWeight: 500 }}>
+          <div className='text-[11px] text-(--ink-3) font-medium'>
             NFC paired
           </div>
-          <div style={{ fontWeight: 600, fontSize: 14 }}>Desk · Tag #02</div>
+          <div className='font-semibold text-[14px]'>Desk · Tag #02</div>
         </div>
       </div>
 
       {/* ── Phone shell ── */}
       <div className='phone'>
-        <div
-          className='screen'
-          style={{
-            background: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
+        <div className='screen flex flex-col'>
           {/* Status bar */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '48px 22px 0',
-              fontSize: 11,
-              fontWeight: 600,
-              color: '#3D2200',
-              background: '#F0DEBB',
-              position: 'relative',
-              zIndex: 2,
-            }}
-          >
+          <div className='flex justify-between pt-12 px-5.5 pb-0 text-[11px] font-semibold text-[#3D2200] bg-[#F0DEBB] relative z-2'>
             <span>9:41</span>
-            <span style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-              <span
-                style={{
-                  width: 14,
-                  height: 8,
-                  border: '1.5px solid #3D2200',
-                  borderRadius: 2,
-                  position: 'relative',
-                  display: 'inline-block',
-                }}
-              >
-                <span
-                  style={{
-                    position: 'absolute',
-                    inset: 1,
-                    background: '#3D2200',
-                    width: '70%',
-                    borderRadius: 1,
-                  }}
-                />
+            <span className='flex gap-1.25 items-center'>
+              <span className='w-3.5 h-2 border-[1.5px] border-[#3D2200] rounded-xs relative inline-block'>
+                <span className='absolute inset-px bg-[#3D2200] w-[70%] rounded-[1px]' />
               </span>
             </span>
           </div>
 
-          {/* ── Top bar — #F6DCC1 warm beige ── */}
-          <div
-            style={{
-              background: '#F6DCC1',
-              padding: '8px 16px 10px',
-              position: 'relative',
-              zIndex: 2,
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: 4,
-              }}
-            >
-              <span
-                style={{ fontSize: 11.5, fontWeight: 600, color: '#3D2200' }}
-              >
+          {/* Top bar */}
+          <div className='bg-[#F6DCC1] pt-2 px-4 pb-2.5 relative z-2'>
+            <div className='flex justify-between mb-1'>
+              <span className='text-[11.5px] font-semibold text-[#3D2200]'>
                 Mittens
               </span>
-              <span
-                style={{ fontSize: 11.5, fontWeight: 600, color: '#3D2200' }}
-              >
+              <span className='text-[11.5px] font-semibold text-[#3D2200]'>
                 LV 7
               </span>
             </div>
-            <div
-              style={{
-                height: 10,
-                border: '1.5px solid #3D2200',
-                borderRadius: 6,
-                background: '#fff',
-                overflow: 'hidden',
-              }}
-            >
-              <div
-                style={{
-                  width: `${xpPct * 100}%`,
-                  height: '100%',
-                  background: '#3D2200',
-                  borderRadius: 4,
-                }}
-              />
+            <div className='h-2.5 border-[1.5px] border-[#3D2200] rounded-md bg-white overflow-hidden'>
+              <div className='w-[62%] h-full bg-[#3D2200] rounded-sm' />
             </div>
-            <div style={{ fontSize: 9, color: '#7A5230', marginTop: 3 }}>
+            <div className='text-[9px] text-[#7A5230] mt-0.75'>
               42 minutes until next level
             </div>
           </div>
 
-          {/* ── Room area (fills remaining space) ── */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+          {/* Room area */}
+          <div className='flex-1 relative overflow-hidden'>
             {/* SVG room background */}
-            <div style={{ position: 'absolute', inset: 0 }}>
+            <div className='absolute inset-0'>
               <RoomBg />
             </div>
 
             {/* Cat sprite */}
-            <div style={{ position: 'absolute', bottom: '14%', left: '50%', transform: 'translateX(-50%)' }}>
+            <div className='absolute bottom-[14%] left-1/2 -translate-x-1/2'>
               <CatSprite size={128} />
             </div>
 
-            {/* ── Timer card ── */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 10,
-                left: 10,
-                right: 10,
-                background: 'rgba(255,255,255,0.88)',
-                borderRadius: 12,
-                padding: '12px 14px',
-                boxShadow: '0 4px 16px rgba(0,0,0,.22)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#14181a' }}>
+            {/* Timer card */}
+            <div className='absolute top-2.5 left-2.5 right-2.5 bg-[rgba(255,255,255,0.88)] rounded-xl p-[12px_14px] shadow-[0_4px_16px_rgba(0,0,0,.22)] flex flex-col items-center gap-2'>
+              <div className='text-[13px] font-bold text-[#14181a]'>
                 Locked In
               </div>
-              <div
-                className='mono'
-                style={{
-                  fontSize: 36,
-                  fontWeight: 700,
-                  letterSpacing: '-.02em',
-                  color: '#14181a',
-                  lineHeight: 1,
-                }}
-              >
+              <div className='mono text-[36px] font-bold tracking-[-0.02em] text-[#14181a] leading-none'>
                 {hh}
-                <span style={{ opacity: 0.3 }}>:</span>
+                <span className='opacity-30'>:</span>
                 {mm}
-                <span style={{ opacity: 0.3 }}>:</span>
+                <span className='opacity-30'>:</span>
                 {ss}
               </div>
-              <div
-                style={{ fontSize: 10, color: '#7a8480', textAlign: 'center' }}
-              >
+              <div className='text-[10px] text-[#7a8480] text-center'>
                 {ENCOURAGEMENTS[encourageIdx]}
               </div>
             </div>
 
-            {/* ── Pet + Feed buttons — sit just below the timer card ── */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 118,
-                left: 0,
-                right: 0,
-                display: 'flex',
-                gap: 8,
-                justifyContent: 'center',
-                padding: '20px 20px',
-              }}
-            >
+            {/* Pet + Feed buttons */}
+            <div className='absolute top-29.5 left-0 right-0 flex gap-2 justify-center px-5 py-5'>
               {(['👋 Pet', '🍖 Feed'] as const).map((label) => (
                 <button
                   key={label}
-                  style={{
-                    background: '#14181a',
-                    color: '#fff',
-                    border: 0,
-                    borderRadius: 999,
-                    padding: '7px 16px',
-                    fontSize: 11,
-                    fontWeight: 600,
-                    cursor: 'default',
-                    flex: 1,
-                  }}
+                  className='bg-[#14181a] text-white border-0 rounded-full py-1.75 px-4 text-[11px] font-semibold cursor-default flex-1'
                 >
                   {label}
                 </button>
               ))}
             </div>
 
-            {/* ── End Focus Session ── */}
-            <div
-              style={{ position: 'absolute', bottom: 12, left: 12, right: 12 }}
-            >
-              <button
-                style={{
-                  width: '100%',
-                  background: 'transparent',
-                  color: '#fff',
-                  border: '1.5px solid rgba(255,255,255,0.75)',
-                  borderRadius: 999,
-                  padding: '9px',
-                  fontSize: 11.5,
-                  fontWeight: 600,
-                  cursor: 'default',
-                }}
-              >
+            {/* End Focus Session */}
+            <div className='absolute bottom-3 left-3 right-3'>
+              <button className='w-full bg-transparent text-white border-[1.5px] border-[rgba(255,255,255,0.75)] rounded-full py-2.25 text-[11.5px] font-semibold cursor-default'>
                 End Focus Session
               </button>
             </div>

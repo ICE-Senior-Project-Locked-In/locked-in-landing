@@ -1,35 +1,29 @@
-import { useEffect } from "react";
-
-// Track which keyframe sizes have already been injected
-const injected = new Set<number>();
+import type { CSSProperties } from "react";
 
 /**
- * Cream cat idle animation (row 0, 10 frames × 32 px native).
- * Injects a per-size @keyframes rule into <head> on first render.
+ * Cream cat idle animation using a sliding strip approach.
+ * Row 0, 10 frames × 32px native. A single @keyframes catSlide in index.css
+ * works for any size — no per-size keyframe injection needed.
  */
 export function CatSprite({ size }: { size: number }) {
-  useEffect(() => {
-    if (injected.has(size)) return;
-    injected.add(size);
-    const style = document.createElement("style");
-    style.textContent = `@keyframes catIdle_${size}{from{background-position:0 0}to{background-position:${-(size * 10)}px 0}}`;
-    document.head.appendChild(style);
-  }, [size]);
-
   const scale = size / 32;
-
+  const sw = Math.round(512 * scale);
+  const sh = Math.round(640 * scale);
   return (
     <div
-      style={{
-        width: size,
-        height: size,
-        backgroundImage: "url('/sprites/cream_cat_spritesheet.png')",
-        backgroundPosition: "0 0",
-        backgroundSize: `${Math.round(512 * scale)}px ${Math.round(640 * scale)}px`,
-        backgroundRepeat: "no-repeat",
-        imageRendering: "pixelated",
-        animation: `catIdle_${size} 1.5s steps(10) infinite`,
-      }}
-    />
+      className="overflow-hidden shrink-0 w-(--cat-s) h-(--cat-s)"
+      style={{ "--cat-s": `${size}px` } as CSSProperties}
+    >
+      <div
+        className="h-full bg-[url('/sprites/cream_cat_spritesheet.png')] bg-no-repeat bg-position-[0_0] [image-rendering:pixelated] animate-[catSlide_1.5s_steps(10)_infinite] w-(--strip-w) bg-size-[var(--bg-sw)_var(--bg-sh)]"
+        style={
+          {
+            "--strip-w": `${size * 10}px`,
+            "--bg-sw": `${sw}px`,
+            "--bg-sh": `${sh}px`,
+          } as CSSProperties
+        }
+      />
+    </div>
   );
 }

@@ -2,20 +2,47 @@ type IcoProps = { s?: number };
 
 export const Ico = {
   download: ({ s = 18 }: IcoProps) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M12 4v12" />
       <path d="m6 11 6 6 6-6" />
       <path d="M5 21h14" />
     </svg>
   ),
   arrowRight: ({ s = 16 }: IcoProps) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M5 12h14" />
       <path d="m13 5 7 7-7 7" />
     </svg>
   ),
   spark: ({ s = 18 }: IcoProps) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" />
     </svg>
   ),
@@ -69,8 +96,17 @@ export function Sprout({
       </defs>
       <ellipse cx="100" cy="178" rx="46" ry="6" fill="#1a3a1f" opacity=".18" />
       <g transform="translate(100 28)">
-        <path d="M0 0 C 4 -22, 28 -28, 36 -10 C 22 -2, 6 6, 0 0 Z" fill="url(#leaf)" />
-        <path d="M0 0 C 4 -16, 18 -22, 30 -12" stroke="#1f5d2a" strokeWidth="1.2" fill="none" opacity=".4" />
+        <path
+          d="M0 0 C 4 -22, 28 -28, 36 -10 C 22 -2, 6 6, 0 0 Z"
+          fill="url(#leaf)"
+        />
+        <path
+          d="M0 0 C 4 -16, 18 -22, 30 -12"
+          stroke="#1f5d2a"
+          strokeWidth="1.2"
+          fill="none"
+          opacity=".4"
+        />
         <rect x="-2" y="0" width="4" height="20" rx="2" fill="#3FA950" />
       </g>
       <path
@@ -97,9 +133,21 @@ export function Sprout({
         </g>
       )}
       {mood === "focus" ? (
-        <path d="M92 130 Q 100 134 108 130" stroke="#1a2b1c" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+        <path
+          d="M92 130 Q 100 134 108 130"
+          stroke="#1a2b1c"
+          strokeWidth="2.5"
+          fill="none"
+          strokeLinecap="round"
+        />
       ) : (
-        <path d="M88 128 Q 100 142 112 128" stroke="#1a2b1c" strokeWidth="2.8" fill="none" strokeLinecap="round" />
+        <path
+          d="M88 128 Q 100 142 112 128"
+          stroke="#1a2b1c"
+          strokeWidth="2.8"
+          fill="none"
+          strokeLinecap="round"
+        />
       )}
     </svg>
   );
@@ -121,8 +169,15 @@ export function Ring({
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   return (
-    <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-      <circle cx={size / 2} cy={size / 2} r={r} stroke={track} strokeWidth={stroke} fill="none" />
+    <svg width={size} height={size} className="-rotate-90">
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        stroke={track}
+        strokeWidth={stroke}
+        fill="none"
+      />
       <circle
         cx={size / 2}
         cy={size / 2}
