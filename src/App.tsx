@@ -6,6 +6,8 @@ import { CatSprite } from './CatSprite';
 const GITHUB_URL = 'https://github.com/ICE-Senior-Project-Locked-In';
 const EMAIL = 'team@lock-in-app.com';
 const WHITEPAPER_URL = '/lock-in-whitepaper.pdf';
+const APK_URL =
+  'https://github.com/ICE-Senior-Project-Locked-In/locked-in-frontend/releases/latest/download/lock-in.apk';
 
 function BrandMark({ variant = 'color' }: { variant?: 'color' | 'white' }) {
   const src =
@@ -47,7 +49,7 @@ function Nav() {
           >
             <Ico.github s={15} /> GitHub
           </a>
-          <a href='#download' className='btn btn-primary btn-sm ml-1.5'>
+          <a href={APK_URL} className='btn btn-primary btn-sm ml-1.5'>
             <Ico.download s={15} /> Download
           </a>
         </div>
@@ -76,7 +78,7 @@ function Hero() {
             care about grow as you get things done.
           </p>
           <div className='hero-cta'>
-            <a href='#download' className='btn btn-primary'>
+            <a href={APK_URL} className='btn btn-primary'>
               <Ico.download s={18} /> Download for Android (APK)
             </a>
             <a href='#features' className='btn btn-ghost'>
@@ -477,7 +479,7 @@ function About() {
                 Read the whitepaper <Ico.arrowRight s={14} />
               </a>
               <a
-                href='#'
+                href='#team'
                 className='btn btn-ghost btn-sm py-2.75 px-1 text-(--primary-500)'
               >
                 Meet the team <Ico.arrowRight s={14} />
@@ -541,6 +543,64 @@ function About() {
   );
 }
 
+const TEAM = [
+  {
+    name: 'Krittapop Manupornprapa',
+    role: 'Backend Developer',
+    github: 'https://github.com/TungDude',
+    handle: 'TungDude',
+  },
+  {
+    name: 'Worranittha Hukhan',
+    role: 'Frontend Developer & DevOps',
+    github: 'https://github.com/mildrrnt',
+    handle: 'mildrrnt',
+  },
+  {
+    name: 'Nithiwat Niramitranon',
+    role: 'UX/UI Designer',
+    github: 'https://github.com/Tniramit',
+    handle: 'Tniramit',
+  },
+];
+
+function Team() {
+  return (
+    <section className='wrap pt-16 pb-28' id='team'>
+      <div className='flex flex-col gap-8 items-center text-center'>
+        <div>
+          <div className='section-tag'>The makers</div>
+          <h2 className='mt-3.5'>Meet our team.</h2>
+        </div>
+        <div className='team-grid'>
+          {TEAM.map((m) => (
+            <a
+              key={m.handle}
+              href={m.github}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='team-card'
+            >
+              <div className='team-avatar'>
+                <img
+                  src={`https://github.com/${m.handle}.png?size=240`}
+                  alt={m.name}
+                  loading='lazy'
+                />
+              </div>
+              <div className='team-name'>{m.name}</div>
+              <div className='team-role'>{m.role}</div>
+              <div className='team-handle'>
+                <Ico.github s={14} /> @{m.handle}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer id='download'>
@@ -558,7 +618,7 @@ function Footer() {
             <div className='foot-cta-card mt-6'>
               <h3>Ready to lock in?</h3>
               <p>Android</p>
-              <a href='#' className='btn btn-primary btn-sm'>
+              <a href={APK_URL} className='btn btn-primary btn-sm'>
                 <Ico.download s={15} /> Download APK
               </a>
             </div>
@@ -614,7 +674,7 @@ function Footer() {
         <div className='wordmark'>LOCK·IN</div>
 
         <div className='foot-bot'>
-          <div>© 2026 Lock In Studio · Crafted with care</div>
+          <div>© 2026 Lock In Team · Crafted with care</div>
           <div className='flex gap-5.5'>
             <span>
               Sprites and Assets by{' '}
@@ -642,6 +702,7 @@ export default function App() {
       <Features />
       <Feedback />
       <About />
+      <Team />
       <Footer />
     </>
   );
