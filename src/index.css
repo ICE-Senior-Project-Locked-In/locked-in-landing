@@ -617,29 +617,67 @@
     letter-spacing: -0.005em;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 980px) {
     .team-grid {
-      grid-template-columns: 1fr;
       gap: 16px;
     }
     .team-card {
-      flex-direction: row;
-      text-align: left;
-      align-items: center;
-      padding: 20px 22px;
-      gap: 18px;
+      padding: 28px 18px 22px;
+      border-radius: 28px;
     }
     .team-avatar {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 0;
-      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
     }
-    .team-meta-mobile {
-      flex: 1;
+    .team-name {
+      font-size: 15.5px;
+    }
+    .team-role {
+      font-size: 12.5px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .team-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 16px;
+      row-gap: 0;
+      text-align: left;
+      padding: 16px 18px;
+      border-radius: 24px;
+    }
+    .team-card .team-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border-width: 2px;
+      margin-bottom: 0;
+      grid-row: 1 / span 3;
+      align-self: center;
+    }
+    .team-card .team-name {
+      font-size: 15px;
+      align-self: end;
+    }
+    .team-card .team-role {
+      font-size: 12.5px;
     }
     .team-card .team-handle {
-      margin-top: 6px;
+      margin-top: 4px;
+      padding: 3px 9px;
+      font-size: 11.5px;
+      justify-self: start;
+      align-self: start;
     }
   }
 
