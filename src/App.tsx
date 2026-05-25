@@ -388,8 +388,207 @@ function Features() {
   );
 }
 
+const FORM_ACTION =
+  'https://docs.google.com/forms/d/e/1FAIpQLScSDHti6_06xaKQ5sTADS_VPMaX3mf2VoWTKUE2cIXR2TpxdQ/formResponse';
+
 const FEEDBACK_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSf-LockIn-feedback/viewform';
+  'https://docs.google.com/forms/d/e/1FAIpQLScSDHti6_06xaKQ5sTADS_VPMaX3mf2VoWTKUE2cIXR2TpxdQ/viewform';
+
+const ENTRY = {
+  rating: 'entry.961518426', // Q1
+  features: 'entry.1105178304', // Q2
+  easeOfUse: 'entry.1615614262', // Q3
+  helped: 'entry.941563120', // Q4
+  comparison: 'entry.1967238831', // Q5
+  bugs: 'entry.972490983', // Q6
+  bugDesc: 'entry.2022165908', // Q7
+  keepUsing: 'entry.1957893757', // Q8
+  recommend: 'entry.1049718538', // Q9
+  improve: 'entry.1180994269', // Q10
+  comments: 'entry.140385047', // Q11
+};
+
+const FEATURES_OPTIONS = [
+  'Focus / Study timer',
+  'Session history / Progress tracking',
+  'Schedule / Notifications reminders',
+  'Settings / Customization',
+  'Other',
+];
+const HELPED_OPTIONS = [
+  'Yes, it helped a lot',
+  'Somewhat / a little improvement',
+  'Not really',
+  "I haven't used it enough to tell",
+];
+const COMPARISON_OPTIONS = [
+  'Much better',
+  'Slightly better',
+  'About the same',
+  'Worse',
+];
+const BUGS_OPTIONS = [
+  'No, everything worked fine',
+  'Yes, minor glitches',
+  'Yes, major issues that blocked me',
+];
+const KEEP_USING_OPTIONS = [
+  'Yes, definitely',
+  'Probably, once more features land',
+  'Not sure yet',
+  'Probably not',
+];
+const RECOMMEND_OPTIONS = ['Yes, definitely', 'Maybe', 'Probably not'];
+
+async function submitToGoogleForms(
+  data: Record<string, string | string[]>,
+): Promise<void> {
+  const body = new URLSearchParams();
+  for (const [key, val] of Object.entries(data)) {
+    if (Array.isArray(val)) {
+      val.forEach((v) => body.append(key, v));
+    } else if (val) {
+      body.append(key, val);
+    }
+  }
+  await fetch(FORM_ACTION, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString(),
+  });
+}
+
+function PillRadio({
+  options,
+  value,
+  onChange,
+}: {
+  options: readonly string[];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className='flex flex-wrap gap-2'>
+      {options.map((opt) => {
+        const on = value === opt;
+        return (
+          <button
+            key={opt}
+            type='button'
+            onClick={() => onChange(opt)}
+            className={`px-3.5 py-2 rounded-full border text-[13px] font-medium transition ${
+              on
+                ? 'bg-(--primary-100) text-[#0c2911] border-transparent'
+                : 'bg-white text-(--ink-2) border-(--line) hover:border-(--primary-300) hover:text-(--ink)'
+            }`}
+          >
+            {opt}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function PillCheckbox({
+  options,
+  values,
+  onChange,
+}: {
+  options: readonly string[];
+  values: string[];
+  onChange: (v: string[]) => void;
+}) {
+  const toggle = (opt: string) =>
+    onChange(
+      values.includes(opt) ? values.filter((v) => v !== opt) : [...values, opt],
+    );
+  return (
+    <div className='flex flex-wrap gap-2'>
+      {options.map((opt) => {
+        const on = values.includes(opt);
+        return (
+          <button
+            key={opt}
+            type='button'
+            onClick={() => toggle(opt)}
+            className={`px-3.5 py-2 rounded-full border text-[13px] font-medium transition flex items-center gap-1.5 ${
+              on
+                ? 'bg-(--primary-100) text-[#0c2911] border-transparent'
+                : 'bg-white text-(--ink-2) border-(--line) hover:border-(--primary-300) hover:text-(--ink)'
+            }`}
+          >
+            {on && <span aria-hidden>✓</span>}
+            {opt}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ScaleRow({
+  value,
+  onChange,
+  lowLabel,
+  highLabel,
+}: {
+  value: number;
+  onChange: (n: number) => void;
+  lowLabel: string;
+  highLabel: string;
+}) {
+  return (
+    <div className='flex flex-col gap-1.5'>
+      <div className='flex gap-2'>
+        {[1, 2, 3, 4, 5].map((n) => {
+          const on = value === n;
+          return (
+            <button
+              key={n}
+              type='button'
+              onClick={() => onChange(n)}
+              className={`flex-1 py-2.5 rounded-[14px] border text-[14px] font-bold transition ${
+                on
+                  ? 'bg-(--primary-100) text-[#0c2911] border-transparent shadow-[0_8px_18px_-12px_rgba(57,139,70,.55)]'
+                  : 'bg-white text-(--ink-2) border-(--line) hover:border-(--primary-300)'
+              }`}
+            >
+              {n}
+            </button>
+          );
+        })}
+      </div>
+      <div className='flex justify-between text-[11.5px] text-(--ink-3)'>
+        <span>1 · {lowLabel}</span>
+        <span>5 · {highLabel}</span>
+      </div>
+    </div>
+  );
+}
+
+function FieldLabel({
+  num,
+  text,
+  required,
+}: {
+  num: number;
+  text: string;
+  required?: boolean;
+}) {
+  return (
+    <div className='flex items-baseline gap-2 mb-2.5'>
+      <span className='text-[11px] font-bold text-(--primary-500) tracking-[.06em]'>
+        Q{num}
+      </span>
+      <label className='text-[14px] font-semibold text-(--ink) leading-snug'>
+        {text}
+        {required && <span className='text-(--primary-500) ml-1'>*</span>}
+      </label>
+    </div>
+  );
+}
 
 function StarRow({
   value,
@@ -450,6 +649,73 @@ function Feedback() {
   ];
   const shown = hover ?? value;
 
+  // Long-form state
+  const [showLongForm, setShowLongForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [features, setFeatures] = useState<string[]>([]);
+  const [easeOfUse, setEaseOfUse] = useState(0);
+  const [helped, setHelped] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [bugs, setBugs] = useState('');
+  const [bugDesc, setBugDesc] = useState('');
+  const [keepUsing, setKeepUsing] = useState('');
+  const [recommend, setRecommend] = useState('');
+  const [improve, setImprove] = useState('');
+  const [comments, setComments] = useState('');
+
+  // Dynamic visible question numbering. Q6 (bug description) is only shown
+  // when bugs is non-empty and not "No, everything worked fine"; subsequent
+  // questions shift up by one when it's hidden so users never see a gap.
+  const showBugDesc = !!bugs && bugs !== BUGS_OPTIONS[0];
+  const bugDescNum = showBugDesc ? 6 : null;
+  const afterBugDescStart = showBugDesc ? 7 : 6;
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    if (
+      !value ||
+      features.length === 0 ||
+      !easeOfUse ||
+      !helped ||
+      !comparison ||
+      !bugs ||
+      !keepUsing ||
+      !recommend
+    ) {
+      setError('Please answer the required questions before submitting.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await submitToGoogleForms({
+        [ENTRY.rating]: String(value),
+        [ENTRY.features]: features,
+        [ENTRY.easeOfUse]: String(easeOfUse),
+        [ENTRY.helped]: helped,
+        [ENTRY.comparison]: comparison,
+        [ENTRY.bugs]: bugs,
+        [ENTRY.bugDesc]: bugDesc,
+        [ENTRY.keepUsing]: keepUsing,
+        [ENTRY.recommend]: recommend,
+        [ENTRY.improve]: improve,
+        [ENTRY.comments]: comments,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setError(
+        'Something went wrong. Please try again, or use the link below.',
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <section className='section wrap' id='feedback'>
       <div className='relative bg-[linear-gradient(150deg,#fff_0%,#F0FCEF_55%,#C5F3CD_100%)] border border-(--line) rounded-[72px] p-18 overflow-hidden'>
@@ -467,42 +733,256 @@ function Feedback() {
           </p>
 
           <div className='mt-9 bg-white rounded-[36px] py-6.5 px-7 border border-(--line) shadow-[0_30px_60px_-36px_rgba(20,40,26,.25)] flex flex-col gap-4.5'>
-            <div className='flex justify-between items-center gap-4 flex-wrap'>
-              <div className='font-semibold text-[15px] tracking-[-0.005em]'>
-                Quick rating
+            {submitted ? (
+              <div className='py-6 text-center flex flex-col items-center gap-3'>
+                <div className='w-12 h-12 rounded-full bg-(--primary-100) grid place-items-center'>
+                  <svg
+                    width='24'
+                    height='24'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='#0c2911'
+                    strokeWidth='2.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  >
+                    <path d='m5 12 5 5L20 7' />
+                  </svg>
+                </div>
+                <div className='font-semibold text-[17px]'>
+                  Thanks! Your feedback has been sent.
+                </div>
+                <p className='text-[14px] text-(--ink-2) max-w-[420px]'>
+                  We read every response. It genuinely shapes what we build
+                  next.
+                </p>
               </div>
-              <div
-                className={`text-[13.5px] font-semibold min-h-4.5 ${shown ? 'text-(--primary-500)' : 'text-(--ink-3)'}`}
-              >
-                {shown ? labels[shown] : 'Tap a star'}
-              </div>
-            </div>
-            <StarRow
-              value={value}
-              hover={hover}
-              onHover={setHover}
-              onPick={setValue}
-            />
-            <div className='flex gap-3 mt-1.5 flex-wrap'>
-              <a
-                href={value ? `${FEEDBACK_URL}?rating=${value}` : FEEDBACK_URL}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='btn btn-primary py-4 px-6 text-[15px]'
-              >
-                {value ? `Send ${value}-star feedback` : 'Open feedback form'}
-                <Ico.arrowRight s={15} />
-              </a>
-              <a
-                href={`mailto:${EMAIL}?subject=Feedback%20on%20Lock%20In`}
-                className='btn btn-ghost py-4 px-4.5 text-[15px] text-(--ink-2)'
-              >
-                Email us instead
-              </a>
-            </div>
-            <div className='text-[12.5px] text-(--ink-3) mt-0.5'>
-              Responses go straight to our Google Sheet. No login, no tracking.
-            </div>
+            ) : (
+              <>
+                <div className='flex justify-between items-center gap-4 flex-wrap'>
+                  <div className='font-semibold text-[15px] tracking-[-0.005em]'>
+                    Quick rating
+                  </div>
+                  <div
+                    className={`text-[13.5px] font-semibold min-h-4.5 ${shown ? 'text-(--primary-500)' : 'text-(--ink-3)'}`}
+                  >
+                    {shown ? labels[shown] : 'Tap a star'}
+                  </div>
+                </div>
+                <StarRow
+                  value={value}
+                  hover={hover}
+                  onHover={setHover}
+                  onPick={setValue}
+                />
+
+                {!showLongForm && (
+                  <>
+                    <div className='flex gap-3 mt-1.5 flex-wrap items-center'>
+                      <button
+                        type='button'
+                        onClick={() => setShowLongForm(true)}
+                        className='btn btn-primary py-4 px-6 text-[15px]'
+                      >
+                        Tell us more <Ico.arrowRight s={15} />
+                      </button>
+                      <a
+                        href={`mailto:${EMAIL}?subject=Feedback%20on%20Lock%20In`}
+                        className='btn btn-ghost py-4 px-4.5 text-[15px] text-(--ink-2)'
+                      >
+                        Email us instead
+                      </a>
+                    </div>
+                    <div className='text-[12.5px] text-(--ink-3) mt-0.5'>
+                      Responses go straight to our Google Sheet. No login, no
+                      tracking.
+                    </div>
+                  </>
+                )}
+
+                {showLongForm && (
+                  <form
+                    onSubmit={handleSubmit}
+                    className='flex flex-col gap-6 mt-3 pt-5 border-t border-(--line)'
+                  >
+                    {/* Features used (Q2 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={1}
+                        text='Which features did you use?'
+                        required
+                      />
+                      <PillCheckbox
+                        options={FEATURES_OPTIONS}
+                        values={features}
+                        onChange={setFeatures}
+                      />
+                    </div>
+
+                    {/* Ease of use (Q3 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={2}
+                        text='How easy was the app to use?'
+                        required
+                      />
+                      <ScaleRow
+                        value={easeOfUse}
+                        onChange={setEaseOfUse}
+                        lowLabel='Very difficult'
+                        highLabel='Very easy'
+                      />
+                    </div>
+
+                    {/* Helped (Q4 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={3}
+                        text='Did Lock-In actually help you stay focused or be more productive?'
+                        required
+                      />
+                      <PillRadio
+                        options={HELPED_OPTIONS}
+                        value={helped}
+                        onChange={setHelped}
+                      />
+                    </div>
+
+                    {/* Comparison (Q5 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={4}
+                        text='Compared to your previous study/work method, Lock-In is…'
+                        required
+                      />
+                      <PillRadio
+                        options={COMPARISON_OPTIONS}
+                        value={comparison}
+                        onChange={setComparison}
+                      />
+                    </div>
+
+                    {/* Bugs (Q6 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={5}
+                        text='Did you encounter any bugs or issues?'
+                        required
+                      />
+                      <PillRadio
+                        options={BUGS_OPTIONS}
+                        value={bugs}
+                        onChange={setBugs}
+                      />
+                    </div>
+
+                    {/* Bug description, conditional reveal (Q7 in form) */}
+                    {showBugDesc && bugDescNum !== null && (
+                      <div>
+                        <FieldLabel
+                          num={bugDescNum}
+                          text='Please describe the bug or issue.'
+                        />
+                        <textarea
+                          value={bugDesc}
+                          onChange={(e) => setBugDesc(e.target.value)}
+                          rows={3}
+                          placeholder='What happened, and on what screen?'
+                          className='border border-(--line) rounded-[12px] px-3.5 py-2.5 text-[14px] w-full font-sans bg-white resize-y focus:outline-none focus:border-(--primary-300) focus:ring-2 focus:ring-(--primary-50)'
+                        />
+                      </div>
+                    )}
+
+                    {/* Keep using (Q8 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={afterBugDescStart}
+                        text='Would you keep using this app?'
+                        required
+                      />
+                      <PillRadio
+                        options={KEEP_USING_OPTIONS}
+                        value={keepUsing}
+                        onChange={setKeepUsing}
+                      />
+                    </div>
+
+                    {/* Recommend (Q9 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={afterBugDescStart + 1}
+                        text='Would you recommend Lock-In to a friend?'
+                        required
+                      />
+                      <PillRadio
+                        options={RECOMMEND_OPTIONS}
+                        value={recommend}
+                        onChange={setRecommend}
+                      />
+                    </div>
+
+                    {/* Improve (Q10 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={afterBugDescStart + 2}
+                        text='What feature do you most want improved or added?'
+                      />
+                      <input
+                        type='text'
+                        value={improve}
+                        onChange={(e) => setImprove(e.target.value)}
+                        placeholder='One short answer is fine.'
+                        className='border border-(--line) rounded-[12px] px-3.5 py-2.5 text-[14px] w-full font-sans bg-white focus:outline-none focus:border-(--primary-300) focus:ring-2 focus:ring-(--primary-50)'
+                      />
+                    </div>
+
+                    {/* Comments (Q11 in form) */}
+                    <div>
+                      <FieldLabel
+                        num={afterBugDescStart + 3}
+                        text='Any other comments, ideas, or feedback?'
+                      />
+                      <textarea
+                        value={comments}
+                        onChange={(e) => setComments(e.target.value)}
+                        rows={3}
+                        placeholder='Anything else you want us to know.'
+                        className='border border-(--line) rounded-[12px] px-3.5 py-2.5 text-[14px] w-full font-sans bg-white resize-y focus:outline-none focus:border-(--primary-300) focus:ring-2 focus:ring-(--primary-50)'
+                      />
+                    </div>
+
+                    {error && (
+                      <div className='text-[13px] text-[#B33A3A] bg-[#FFE3E3] border border-[#F5C4C4] rounded-[12px] px-3.5 py-2.5'>
+                        {error}
+                      </div>
+                    )}
+
+                    <div className='flex gap-3 flex-wrap items-center pt-1'>
+                      <button
+                        type='submit'
+                        disabled={submitting}
+                        className='btn btn-primary py-4 px-6 text-[15px] disabled:opacity-60 disabled:cursor-not-allowed'
+                      >
+                        {submitting ? 'Sending…' : 'Send feedback'}
+                        {!submitting && <Ico.arrowRight s={15} />}
+                      </button>
+                      <button
+                        type='button'
+                        onClick={() => setShowLongForm(false)}
+                        className='text-[13px] text-(--ink-3) hover:text-(--ink) underline-offset-2 hover:underline ml-auto'
+                      >
+                        Collapse
+                      </button>
+                    </div>
+                    <div className='text-[12.5px] text-(--ink-3)'>
+                      Responses go straight to our Google Sheet. No login, no
+                      tracking. <span className='text-(--primary-500)'>*</span>{' '}
+                      = required.
+                    </div>
+                  </form>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
